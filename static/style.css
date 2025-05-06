@@ -1,0 +1,1340 @@
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('background.png') no-repeat center center fixed;
+    background-size: cover; /* Make sure the background fills the viewport */
+    color: #000;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden; /* Prevent sideways scrolling caused by modal or overflow content */
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.7); /* Semi-transparent header overlay */
+    padding: 10px 40px;
+    border-bottom: 1px solid #e0e0e0;
+    height: 100px; /* Fixed height to fit large logo */
+}
+
+.logo-img {
+    max-height: 120px;
+    width: auto;
+    margin-right: 30px; /* Space between logo and nav */
+}
+
+/* Navigation Bar */
+nav {
+    flex-grow: 1; /* Let nav take all remaining space */
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #4a4a4a;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+    font-size: 1rem;
+    transition: 0.3s ease;
+}
+
+nav ul li a:hover {
+    background: #e0e0e0;
+    border-radius: 5px;
+    color: #000;
+}
+
+/* Responsive Header Adjustments */
+/* Applies styles on screens 1024px wide or smaller (eg tablets, small laptops) */
+@media (max-width: 1024px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 20px; /* Less padding for smaller screens */
+    }
+
+    .logo-img {
+        max-height: 90px; /* Slightly smaller logo */
+    }
+
+    nav ul {
+        flex-wrap: wrap; /* Wrap if nav links overflow */
+        justify-content: flex-end;
+    }
+}
+
+/* Applies styles on screens 768px wide or smaller (eg mobile devices) */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column; /* Stack logo and nav */
+        align-items: center;
+        height: auto; /* Allow dynamic height */
+    }
+
+    .logo-img {
+        max-height: 80px;
+        margin-bottom: 10px;
+    }
+
+    nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav ul li {
+        margin: 5px;
+    }
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    flex: 1; /* Allows <main> to grow and fill vertical space in a flex layout */
+    background-color: transparent;
+}
+
+/* Footer */
+footer {
+    background: #f4f4f4;
+    color: #4a4a4a;
+    text-align: center;
+    padding: 10px 0;
+    border-top: 1px solid #e0e0e0;
+    flex-shrink: 0; /* Prevents footer from shrinking if content is short */
+    position: relative;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Utility Button */
+.btn {
+    display: inline-block;
+    background: #000000;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background: #4a4a4a;
+}
+
+/* Contact Page */
+.contact {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Adds subtle depth to the form */
+}
+
+.contact h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Even spacing between form fields */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px; /* Prevents textarea from being too short */
+}
+
+/* Alert / Success Feedback */
+.alert-messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999; /* Ensures message appears on top of all elements */
+    animation: slideDown 0.4s ease-out; /* Smooth entry animation */
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Entry animation for alert message*/
+/* starting from not visible 0 at 15px above its normal position to fully visible 1 to the normal position */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px); 
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Cookie Consent Overlay */
+.cookie-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* semi-transparent dark background */
+    z-index: 999;
+}
+
+.cookie-box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* centers the box on the screen */
+    background: #ffffff;
+    color: #000;
+    padding: 30px 25px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.cookie-box p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.cookie-btn {
+    background-color: #000;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cookie-btn:hover {
+    background-color: #333;
+}
+
+/* Login Form  */
+.login-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-form {
+    background-color: #f4f4f4;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+/* Inherits shared .form-group styles for consistency */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #4a4a4a;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Full-width login button with hover effect */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #333;
+}
+
+/* Logout Button */
+.logout-btn {
+    background-color: #000;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+    background-color: #444; 
+}
+
+/* Dashboard Button */
+.dashboard-btn {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.dashboard-btn:hover {
+    background-color: #555;
+}
+
+/* Login Button */
+.login-btn {
+    background-color: black;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.login-btn:hover {
+    background-color: #444;
+}
+
+/* Signup Button */
+.signup-btn {
+    background-color: #444;
+    color: white;
+}
+
+.signup-btn:hover {
+    background-color: #666;
+}
+
+/* Signup Form Styles */
+.signup-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.signup-form {
+    background-color: #f4f4f4;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.signup-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+/* Alert Messages */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .login-form, .signup-form {
+        padding: 20px;
+        margin: 10px;
+    }
+}
+
+ /* Checkout Container */
+ .container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+thead {
+    background-color: #000;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+img {
+    width: 80px;
+    border-radius: 5px;
+}
+
+/* Empty Basket Message */
+.empty-basket {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.empty-basket p {
+    font-size: 18px;
+    color: #333;
+}
+
+.empty-basket a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: black;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.empty-basket a:hover {
+    background: #333;
+}
+
+/* Order Summary & Checkout Button */
+.order-summary {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.checkout-btn {
+    display: inline-block;
+    background: black;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.checkout-btn:hover {
+    background: #333;
+}
+
+/* Action Buttons (Increase, Decrease, Remove) */
+.action-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 2px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Increase (Add Quantity) */
+.increase {
+    background-color: #222; /* Dark Gray */
+    color: white;
+}
+
+.increase:hover {
+    background-color: #444; /* Slightly lighter gray */
+}
+
+/* Decrease (Reduce Quantity) */
+.decrease {
+    background-color: #555; /* Medium Gray */
+    color: white;
+}
+
+.decrease:hover {
+    background-color: #777; /* Lighter Gray */
+}
+
+/* Remove Product */
+.delete {
+    background-color: #000; /* Black */
+    color: white;
+}
+
+.delete:hover {
+    background-color: #333; /* Darker Gray */
+}
+
+/* Align buttons properly */
+.quantity-controls {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+/* Styling the Checkout Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    background: #f4f4f4; /* Light Gray Background */
+}
+
+thead {
+    background-color: #222; /* Dark Gray */
+    color: white;
+}
+
+th, td {
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd; /* Light Gray Borders */
+}
+
+/* Basket Empty Message */
+.empty-basket {
+    text-align: center;
+    font-size: 18px;
+    color: #444; /* Medium Gray */
+    padding: 20px;
+}
+
+/* Proceed to Checkout Button */
+.checkout-btn {
+    display: inline-block;
+    background-color: #000; /* Black */
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+}
+
+.checkout-btn:hover {
+    background-color: #333; /* Darker Gray */
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* Unified styling for User Info, Recent Orders, and Wishlist */
+.user-info, .recent-orders, .wishlist {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.user-info h2, .recent-orders h2, .wishlist h2 {
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.user-info p, .recent-orders ul, .wishlist ul {
+    font-size: 1.1em;
+    color: #666;
+}
+
+/* Orders List */
+.recent-orders ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recent-orders li {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.order-card {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.order-total {
+    font-weight: bold;
+    color: #222;
+}
+.order-status {
+    background: #000;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+}
+
+/* Order Summary */
+.order-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.order-detail-container h1,
+.order-detail-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.order-summary-box {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.order-summary-box p {
+    margin: 8px 0;
+    color: #444;
+    font-size: 1rem;
+}
+
+.order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-item-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.order-item-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.item-info p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 30px;
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #333;
+}
+
+/* Wishlist Section */
+.wishlist ul {
+    list-style: none;
+    padding: 0;
+}
+
+.wishlist li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Empty States */
+.no-orders, .no-wishlist {
+    color: #666;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Remove from Wishlist Button */
+.remove-wishlist-btn {
+    background: black;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: background 0.3s ease-in-out;
+}
+
+.remove-wishlist-btn:hover {
+    background: #333;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center products properly */
+    align-items: stretch;
+    gap: 20px; /* Adjust space between items */
+    max-width: 100%;
+    padding: 10px;
+}
+.product-card {
+    width: 200px; /* Set a fixed width for uniform sizing */
+    flex: 1 1 calc(25% - 20px); /* Adjust column width dynamically */
+    min-width: 180px;
+    max-width: 220px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.product-card img {
+    max-width: 100%;
+    border-radius: 4px;
+}
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    width: 400px;
+    max-height: 80vh; /* Ensures the modal fits within the viewport */
+    overflow-y: auto; /* Enables scrolling */
+}
+
+/* Ensure the image is fully visible */
+.modal img {
+    width: 100%; /* Ensures image is not cut off */
+    max-height: 300px; /* Adjust this to match your design */
+    object-fit: contain; /* Ensures full image is shown without cropping */
+    display: block;
+    margin: 0 auto;
+}
+
+/* Scrollbar Customization */
+.modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+.add-to-basket {
+    background: black;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Account Styles */
+.account-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.account-options {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.account-box {
+    background: #f4f4f4;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 30px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.account-box h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.account-box p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.account-box a {
+    display: inline-block;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #000000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.account-box a:hover {
+    background-color: #333333;
+}
+
+/* Center the search bar */
+.search-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 400px;
+}
+
+/* Search input styling */
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Space between input and button */
+}
+
+/* Search button styling */
+.search-bar button {
+    all: unset;
+    display: block;
+    width: 50%;
+    padding: 10px 0;
+    background-color: #000 !important;
+    color: white !important;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.search-bar button:hover {
+    background-color: #444 !important;
+}
+
+.view-details-btn {
+    background: white;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid black;
+    display: inline-block;
+    margin-top: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.view-details-btn:hover {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+/* Style for Add to Basket button inside the modal */
+.add-to-basket-btn {
+    display: block;
+    width: 50%;
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.add-to-basket-btn:hover {
+    background-color: #444444; /* Dark gray on hover */
+}
+
+.categories {
+    margin-top: 20px;
+}
+
+.categories input[type="checkbox"] {
+    display: none;
+}
+
+.categories label {
+    display: inline-block;
+    margin: 8px;
+    padding: 10px 18px;
+    background: #333;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.categories input[type="checkbox"]:checked + label {
+    background: black;
+    font-weight: 600;
+    transform: scale(1.05);
+}
+
+.categories label:hover {
+    background: #555;
+}
+button {
+    background: #ffffff;
+    color: #000000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0.1, 0.1);
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 20px;
+}
+button:hover {
+    background: #dddddd;
+}
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+.product-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+}
+.product-card img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.quick-actions {
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.quick-actions h2 {
+    text-align: center;
+    color: #333;
+}
+
+.quick-actions ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.quick-actions ul li {
+    display: inline;
+}
+
+.quick-actions ul li a {
+    display: block;
+    background: #000;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.quick-actions ul li a:hover {
+    background: #444;
+}
+
+/* Wishlist Button */
+.wishlist-btn {
+    display: inline-block;
+    background-color: #000000; /* Black background */
+    color: #ffffff;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.wishlist-btn:hover {
+    background: #444444;; /* Darker pink on hover */
+}
+
+/* Disabled Wishlist Button */
+.wishlist-btn.disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Close Button Style */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #555;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+/* AR Try-On Section */
+.ar-section {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+.ar-heading {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.ar-description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.ar-form {
+    margin-bottom: 20px;
+}
+
+.ar-file-input {
+    padding: 10px;
+    font-size: 1rem;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Preview container */
+.ar-preview-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Uploaded selfie */
+.ar-selfie {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Wrapper for draggable + resizable glasses */
+#glasses-wrapper {
+    position: absolute;
+    top: 50%; /* Can leave or change to 40% for a better starting point */
+    left: 50%;
+    width: 150px;
+    display: none;
+    z-index: 3;
+    cursor: grab;
+    background: rgba(255, 255, 255, 0.01);
+    user-select: none;
+}
+
+/* Visual cue on active dragging */
+#glasses-wrapper.dragging {
+    cursor: grabbing;
+    opacity: 0.95;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+
+/* Glasses image inside the wrapper */
+#glasses-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none; /* Prevents interference with dragging */
+}
+
+/* Optional: Glasses styling (used as class) */
+.ar-glasses {
+    display: block;
+}
+
+#glasses-overlay {
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    display: block;
+}
+
+/* Resize handle */
+.resize-handle {
+    width: 14px;
+    height: 14px;
+    background: #444;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -7px;
+    right: -7px;
+    cursor: se-resize;
+    border: 2px solid white;
+}
+
+/* Glasses selection thumbnails */
+.glasses-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.glasses-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px; 
+    flex-shrink: 0; 
+}
+
+.glasses-option {
+    width: 80px;
+    height: auto;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.glasses-option:hover {
+    border-color: #000;
+    transform: scale(1.1) translateY(-5px);
+}
+
+.glasses-label {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
