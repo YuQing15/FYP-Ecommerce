@@ -1,0 +1,56 @@
+# For testing real-time price.
+# currently not in use
+
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<main>
+    <h1>{{ product.name }}</h1>
+    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+    <p>{{ product.short_description }}</p>
+
+    <h2>Price Comparison</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Vendor</th>
+                <th>Price</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody id="price-comparison">
+            {% for price in price_comparison %}
+            <tr>
+                <td>{{ price.vendor }}</td>
+                <td>£{{ price.price }}</td>
+                <td><a href="{{ price.product_url }}" target="_blank">View Product</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button onclick="refreshPrices({{ product.id }})">Refresh Prices</button>
+</main>
+
+<script>
+function refreshPrices(productId) {
+    fetch(`/api/prices/${productId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById("price-comparison");
+            tableBody.innerHTML = ""; 
+
+            data.prices.forEach(price => {
+                const row = `<tr>
+                    <td>${price.vendor}</td>
+                    <td>£${price.price}</td>
+                    <td><a href="${price.product_url}" target="_blank">View Product</a></td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Compare Prices{% endblock %}
+
+{% block content %}
+<main class="container">
+    <h1>Compare Prices for {{ product.name }}</h1>
+    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Vendor</th>
+                <th>Price</th>
+                <th>Buy</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for price in prices %}
+            <tr>
+                <td>{{ price.vendor.name }}</td>
+                <td>£{{ price.price }}</td>
+                <td><a href="{{ price.vendor.website }}" class="btn">Go to Store</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No prices available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'products' %}" class="btn">Back to Products</a>
+</main>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <main class="container">
+        <section class="hero">
+            <h2>Discover the Future of Shopping</h2>
+            <p>Explore our wide range of products, compare prices, and enjoy personalised recommendations.</p>
+            <a href="{% url 'products' %}" class="btn">Shop Now</a>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h3>Price Comparison</h3>
+                <p>Find the best deals by comparing prices from multiple sources.</p>
+            </div>
+            <div class="feature">
+                <h3>Personalised Recommendations</h3>
+                <p>Get suggestions tailored to your preferences and browsing history.</p>
+            </div>
+            <div class="feature">
+                <h3>AR-Based Try-On</h3>
+                <p>Virtually try on accessories to find your perfect fit.</p>
+            </div>
+        </section>
+
+        <!-- Hide Sign-Up CTA if the user is logged in -->
+        {% if not user.is_authenticated %}
+        <section class="cta">
+            <h2>Sign Up Today</h2>
+            <p>Create an account to manage your orders, wishlist and etc.</p>
+            <a href="{% url 'account' %}" class="btn">Get Started</a>
+        </section>
+        {% endif %}
+    </main>
+{% endblock %}

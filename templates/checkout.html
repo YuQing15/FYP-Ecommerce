@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="container">
+            <h1>Your Basket</h1>
+            
+            {% if cart_items %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td><img src="{{ item.product.image_url }}" alt="{{ item.product.name }}"></td>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>£{{ item.subtotal }}</td>
+                            <td>
+                                <a href="{% url 'add_to_basket' item.product.id %}" class="action-btn increase">+</a>
+                                <a href="{% url 'remove_from_basket' item.id %}" class="action-btn decrease">-</a>
+                                <a href="{% url 'delete_from_basket' item.id %}" class="action-btn delete">Remove</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3 class="total-price">Total: £{{ total }}</h3>
+                <a href="{% url 'place_order' %}" class="checkout-btn">Proceed to Checkout</a>
+            {% else %}
+                <p class="empty-basket">Your basket is empty.</p>
+                <a href="{% url 'products' %}" class="continue-shopping-btn">Continue Shopping</a>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}
