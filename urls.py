@@ -1,36 +1,7 @@
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('products/', views.products, name='products'),
-    path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
-    path('account/', views.account, name='account'), 
-    path('checkout/', views.checkout, name='checkout'),
-    path('recommendation/', views.recommendation, name='recommendation'),
-    path('add_to_basket/<int:product_id>/', views.add_to_basket, name='add_to_basket'),
-    path('remove_from_basket/<int:item_id>/', views.remove_from_basket, name='remove_from_basket'),
-    path('delete_from_basket/<int:item_id>/', views.delete_from_basket, name='delete_from_basket'),
-    path('signup/', views.signup, name='signup'),
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('dashboard/', views.dashboard, name='dashboard'),
-    path('profile/', views.profile, name='profile'),
-    path('create-checkout-session/', views.create_checkout_session, name='create_checkout_session'),
-    path('payment-success/', views.payment_success, name='payment_success'),
-    path('orders/', views.orders, name='orders'),
-    path('order/<int:order_id>/', views.order_detail, name='order_detail'),
-    path('add-to-wishlist/<int:product_id>/', views.add_to_wishlist, name='add_to_wishlist'),
-    path('remove-from-wishlist/<int:item_id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
-    path('place-order/', views.place_order, name='place_order'),
-    path('products/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('api/prices/<int:product_id>/', views.get_price_comparison, name='get_price_comparison'),
-    path('compare/<int:product_id>/', views.compare_prices, name='compare_prices'),
-    path('api/get-recommendations/', views.get_recommendations, name='get_recommendations'),
-    path('update-preferences/', views.update_preferences, name='update_preferences'),
-    path('reset-preferences/', views.reset_preferences, name='reset_preferences'),
-    path('ar-tryon/', views.ar_tryon, name='ar_tryon'),
-    path('track-view/<int:product_id>/', views.track_product_view, name='track_view'),
-    path('smart-recommendations/', views.smart_recommendations, name='smart_recommendations'),
+    path('admin/', admin.site.urls),
+    path('', include('myapp.urls')),  
 ]
