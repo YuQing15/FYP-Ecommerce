@@ -32,8 +32,8 @@ Ensure you have the following installed:
 
 1. **Clone the repository** or download the ZIP:
    ```bash
-   git clone https://github.com/yourusername/final-year-ecommerce-project.git
-   cd final-year-ecommerce-project
+   git clone https://github.com/YuQing15/FYP-Ecommerce
+   cd FYP-Ecommerce
    ```
 
 2. **(Optional) Create a virtual environment**:
