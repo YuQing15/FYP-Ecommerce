@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<main class="dashboard-container">
+    <!-- User Info -->
+    <section class="user-info">
+        <h2>Account Information</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Member since:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+    </section>
+
+    <!-- Recent Orders -->
+    <section class="recent-orders">
+        <h2>Recent Orders</h2>
+        {% if orders %}
+            <ul>
+                {% for order in orders %}
+                    <li style="margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 8px; background: #fff;">
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <p style="margin: 0; font-weight: 500; color: #222;">
+                                <strong>Order:</strong> {{ order.order_number }}
+                                <br><strong>Date:</strong> {{ order.created_at|date:"F j, Y" }}  
+                                <br><strong>Items:</strong> {{ order.items.count }} 
+                            </p>
+                            <ul style="margin: 10px 0 0; padding-left: 16px; color: #555; font-size: 0.95rem;">
+                                {% for item in order.items.all %}
+                                    <li>{{ item.product.name }} (x{{ item.quantity }})</li>
+                                {% endfor %}
+                            </ul>
+                            <p style="margin-top: 10px; font-weight: bold;">Total: £{{ order.total_price }}</p>
+                            <a href="{% url 'order_detail' order.id %}" class="view-details-btn" style="width: fit-content;">View Details</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-orders">No recent orders</p>
+        {% endif %}
+    </section>
+
+    <!-- Wishlist Section -->
+    <section class="wishlist">
+        <h2>Wishlist</h2>
+        {% if wishlist_items %}
+            <ul id="wishlist-items" style="padding: 0;">
+                {% for item in wishlist_items %}
+                <li id="wishlist-item-{{ item.id }}" style="
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 20px;
+                    padding: 15px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 12px;
+                    background-color: #fff;
+                    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+                ">
+                    <img src="{{ item.product.image_url|default:'https://via.placeholder.com/80x80?text=No+Image' }}"
+                         alt="{{ item.product.name }}"
+                         width="70"
+                         height="70"
+                         style="margin-right: 20px; border-radius: 8px; object-fit: cover;">
+
+                    <div style="flex-grow: 1;">
+                        <p style="margin: 0; font-weight: 600; font-size: 1rem; color: #222;">
+                            {{ item.product.name }}
+                        </p>
+                        {% if item.product.prices.all %}
+                            {% with price=item.product.prices.first %}
+                                <p style="margin: 6px 0 10px; color: #444;">£{{ price.price }}</p>
+                            {% endwith %}
+                        {% else %}
+                            <p style="margin: 6px 0 10px; color: #777;">Price unavailable</p>
+                        {% endif %}
+                        <a href="{% url 'add_to_basket' item.product.id %}"
+                        class="btn-sm"
+                        style="padding: 6px 12px; font-size: 0.85rem; color: black; border-radius: 5px;">
+                        Add to Basket
+                     </a>
+                    </div>
+
+                    <button class="remove-wishlist-btn btn-sm"
+                            data-item-id="{{ item.id }}"
+                            style="margin-left: 20px; background: #eee; color: #333;">
+                        Remove
+                    </button>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-wishlist">Your wishlist is empty.</p>
+        {% endif %}
+    </section>
+
+    <!-- Category Preference Selection -->
+    <section class="preferences user-info">
+        <h2>Product Preferences</h2>
+        <form action="{% url 'update_preferences' %}" method="post">
+            {% csrf_token %}
+            <div class="categories">
+                {% for category in categories %}
+                    <input type="checkbox" id="cat_{{ forloop.counter }}" name="favorite_categories" value="{{ category }}"
+                        {% if category in profile.favorite_categories %}checked{% endif %}>
+                    <label for="cat_{{ forloop.counter }}">
+                        {{ category|title }}
+                    </label>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn" style="margin-top: 15px;">Save Preferences</button>
+        </form>
+
+        <form action="{% url 'reset_preferences' %}" method="post" style="margin-top: 10px;">
+            {% csrf_token %}
+            <button type="submit" class="btn">Reset Preferences</button>
+        </form>
+    </section>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".remove-wishlist-btn").forEach(button => {
+            button.addEventListener("click", function(event) {
+                event.preventDefault();
+                const itemId = this.getAttribute("data-item-id");
+                const listItem = document.getElementById(`wishlist-item-${itemId}`);
+
+                fetch(`/remove-from-wishlist/${itemId}/`, {
+                    method: "GET",
+                    headers: { "X-Requested-With": "XMLHttpRequest" }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        listItem.remove();
+                        alert("Item removed from wishlist!");
+                    } else {
+                        alert("Failed to remove item.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        });
+    });
+</script>
+{% endblock %}

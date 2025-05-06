@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Luxe{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header>
+        <a href="{% url 'home' %}" class="logo-img">
+            <img src="{% static 'luxe.png' %}" alt="Luxe Logo">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'products' %}">Products</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'recommendation' %}">Recommendation</a></li>
+
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'checkout' %}">Basket</a></li>
+                    <li><a href="{% url 'smart_recommendations' %}">For You</a></li>
+                    <li><a href="{% url 'dashboard' %}" class="dashboard-btn">Dashboard</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-btn">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}" class="login-btn">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    {% if messages %}
+        <div class="alert-messages">
+            {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 E-Commerce Platform. All rights reserved.</p>
+    </footer>
+
+    <!-- Cookie Consent -->
+    <div class="cookie-overlay" id="cookieOverlay"></div>
+    <div class="cookie-box" id="cookieBox">
+        <p>This website uses cookies to enhance your experience. By continuing to browse, you agree to our use of cookies.</p>
+        <button class="cookie-btn" id="acceptCookies">Accept</button>
+    </div>
+
+    {% block extra_js %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const alertBox = document.querySelector(".alert-messages");
+            if (alertBox) {
+                setTimeout(() => {
+                    alertBox.style.opacity = "0";
+                    setTimeout(() => alertBox.remove(), 300);
+                }, 3000);
+            }
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const cookieBox = document.getElementById("cookieBox");
+            const cookieOverlay = document.getElementById("cookieOverlay");
+            const acceptBtn = document.getElementById("acceptCookies");
+
+            if (!getCookie("cookie_consent_accepted")) {
+                setTimeout(() => {
+                    cookieBox.style.display = "block";
+                    cookieOverlay.style.display = "block";
+                }, 3000); // Show after 3 seconds
+            }
+
+            acceptBtn.addEventListener("click", function () {
+                document.cookie = "cookie_consent_accepted=true; path=/; max-age=31536000"; // 1 year
+                cookieBox.style.display = "none";
+                cookieOverlay.style.display = "none";
+            });
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+<div class="order-detail-container">
+    <h1>Order Invoice</h1>
+
+    <div class="order-summary-box">
+        <p><strong>Order Number:</strong> {{ order.order_number }}</p>
+        <p><strong>Order Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}</p>
+        <p><strong>Total Price:</strong> £{{ order.total_price }}</p>
+        <p><strong>Number of Items:</strong> {{ order.items.count }}</p>
+    </div>
+
+    <h2>Items Purchased</h2>
+
+    {% if order.items.all %}
+        <div class="order-items-list">
+            {% for item in order.items.all %}
+                <div class="order-item-card">
+                    <img src="{{ item.product.image_url|default:'https://via.placeholder.com/80x80?text=No+Image' }}" alt="{{ item.product.name }}">
+                    <div class="item-info">
+                        <p><strong>{{ item.product.name }}</strong></p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Price: £{{ item.price }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No items found in this order.</p>
+    {% endif %}
+
+    <div class="order-summary-box" style="margin-top: 30px;">
+        <p><strong>Total Amount Paid:</strong> £{{ order.total_price }}</p>
+    </div>
+
+    <a href="{% url 'dashboard' %}" class="back-btn">← Back to Dashboard</a>
+</div>
+{% endblock %}
